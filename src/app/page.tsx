@@ -35,17 +35,17 @@ export default function Home() {
     >
       <section
         id="select-device-section"
-        className="p-4 bg-white shadow-md sticky top-0 z-10"
+        className="p-4 bg-blue-100 shadow-md sticky top-0 z-10"
       >
-        <h2 className="text-lg font-semibold mb-2">Select device:</h2>
-        <select className="w-full p-2 border rounded"
+        <h2 className="text-lg font-semibold mb-2 text-blue-900">Select device:</h2>
+        <select className="w-full p-2 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white hover:border-blue-300 transition-colors"
           value={selectedDevice || ''}
           onChange={(e) => setSelectedDevice(e.target.value)}
         >
           {
             devicesList.map((device, index) => (
               <option key={index} value={device}>
-                {device}
+                {`Device ${device}`}
               </option>
             ))
           }
@@ -59,17 +59,17 @@ export default function Home() {
       </section>
       <section
         id="graph-and-history-section"
-        className="p-4 mt-4 flex-grow flex flex-col bg-white shadow-md rounded-t-lg" 
+        className="p-4 mt-4 flex-grow flex flex-col bg-white shadow-md rounded-t-lg border-2 border-blue-200" 
       >
-        <h2 className="text-lg font-semibold mb-2">Graph and History</h2>
+        <h2 className="text-lg font-semibold mb-2 text-blue-900">Graph and History</h2>
         {/* Tab Navigation */}
-        <div className="flex border-b border-gray-200">
+        <div className="flex border-bborder-blue-200">
           <button
             onClick={() => setActiveTab(0)}
             className={`py-2 px-4 font-medium text-sm focus:outline-none ${
               activeTab === 0
-                ? 'border-b-2 border-blue-500 text-blue-600'
-                : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                ? 'bg-blue-600 text-white border-b-2 border-blue-700'
+                : 'text-blue-600 bg-blue-50 hover:bg-blue-100'
             }`}
           >
             Graph
@@ -78,8 +78,8 @@ export default function Home() {
             onClick={() => setActiveTab(1)}
             className={`py-2 px-4 font-medium text-sm focus:outline-none ${
               activeTab === 1
-                ? 'border-b-2 border-blue-500 text-blue-600'
-                : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                ? 'bg-blue-600 text-white border-b-2 border-blue-700'
+                : 'text-blue-600 bg-blue-50 hover:bg-blue-100'
             }`}
           >
             Data history
@@ -87,7 +87,7 @@ export default function Home() {
         </div>
 
         {/* Tab Content */}
-        <div className="flex-grow mt-4 flex flex-col"> 
+        <div className="flex-grow mt-4 flex flex-col bg-blue-25  rounded-b-lg"> 
           {activeTab === 0 && selectedDevice && (
             <Graph deviceId={selectedDevice}/>
           )}

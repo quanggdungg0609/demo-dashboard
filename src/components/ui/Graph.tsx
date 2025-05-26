@@ -43,7 +43,7 @@ function Graph({ deviceId }: GraphProps) {
 
     useEffect(() => {
         fetchGraphData();
-    },[]);
+    },[deviceId]);
     useEffect(() => {
         if(deviceId){
             fetchGraphData();
@@ -83,18 +83,23 @@ function Graph({ deviceId }: GraphProps) {
     return (
         <div className="flex flex-col flex-grow h-full bg-gray-50 rounded border border-gray-200 p-4">
             <div className="mb-4 flex flex-col md:flex-row gap-2"> 
-                <span className="mr-2 font-medium">Select data:</span>
+                <span className="mr-2 font-medium text-blue-700">Select data:</span>
                 {(['TEMPERATURE', 'HUMIDITY', 'RESISTOR'] as PlottableDataKey[]).map((key) => (
                   <label key={key} className="flex items-center">
                     <input
                       type="radio"
                       name="graphDataType"
+
                       value={key}
                       checked={selectedGraphKey === key}
                       onChange={() => setSelectedGraphKey(key)}
-                      className="mr-1"
+                      className="mr-1 accent-blue-600"
                     />
-                    {dataKeyToLabel[key].split(' ')[0]} 
+                    <span
+                      className='text-gray-700 hover:text-blue-800'
+                    >
+                      {dataKeyToLabel[key].split(' ')[0]} 
+                    </span>
                   </label>
                 ))}
             </div>
