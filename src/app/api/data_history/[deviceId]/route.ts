@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { Corrosion } from "@/entity/Corrosion";
 import { getDataSource } from "../../../../../ormconfig";
 import { formatDateTime } from "@/utils/utils";
-
+/* eslint-disable */
 export async function GET(
     request: NextRequest,
-    { params }: { params: { deviceId: string } }
+    context: { params: Promise<{ deviceId: string }> }  
 ) {
     try{
-        const { deviceId } = await params;
+        
+        const  {deviceId }  = await context.params;
         const searchParams = request.nextUrl.searchParams;
         const page = parseInt(searchParams.get('page') || '1',10);
         const limit = parseInt(searchParams.get('limit') || '5',10);

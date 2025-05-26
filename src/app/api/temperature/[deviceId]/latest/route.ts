@@ -7,7 +7,7 @@ import { formatDateTime } from '@/utils/utils';
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { deviceId: string } }
+    { params }: { params: Promise<{ deviceId: string }> }
   ) {
     try {
       const { deviceId } = await params; 

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import mysql from 'mysql2/promise';
-import {getDataSource } from '../../../../../ormconfig';
+import { getDataSource } from '../../../../../ormconfig';
 import { Corrosion } from '@/entity/Corrosion';
 
 
@@ -8,13 +7,11 @@ interface Params {
     deviceId: string;
 }
 
-export async function GET(request: Request, { params }: { params: Params }) {
-    const { deviceId } = params;
+export async function GET(request: Request, { params }: { params: Promise<{ deviceId: string }> }) {
+    const { deviceId } = await params;
     if (!deviceId) {
       return NextResponse.json({ message: 'deviceId is required' }, { status: 400 });
     }
-    console.log('API Route: /api/latest_data/[deviceId]/route.ts');
-    console.log('Received deviceId:', deviceId);
     if (!deviceId) {
       return NextResponse.json({ message: 'Device ID is required' }, { status: 400 });
     }
