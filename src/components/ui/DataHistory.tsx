@@ -20,6 +20,7 @@ function DataHistory({deviceId}: DataHistoryProps) {
     const [currentDataHistoryPage, setCurrentDataHistoryPage] = useState<number>(1);
     const [totalDataHistoryPages, setTotalDataHistoryPages] = useState<number>(0);
 
+    
     useEffect(() => {
         fetchDataHistory(1);
     },[deviceId]);
@@ -30,6 +31,7 @@ function DataHistory({deviceId}: DataHistoryProps) {
 
     const fetchDataHistory = async (page: number) => {
         try {
+            
             const response = await fetch(`/api/data_history/${deviceId}?page=${page}&limit=5`);
             if (!response.ok) {
             const errorData = await response.json().catch(() => ({ message: `HTTP error! status: ${response.status}` }));
@@ -51,6 +53,33 @@ function DataHistory({deviceId}: DataHistoryProps) {
           console.log(newPage);
           setCurrentDataHistoryPage(newPage);
         }
+    };
+
+    const generatePaginationPages = () => {
+        const pages = [];
+        const delta = 2;
+        const left = currentDataHistoryPage - delta;
+        const right = currentDataHistoryPage + delta;
+        
+        pages.push(1);
+
+        if (left > 2) {
+            pages.push('ellipsis-left');
+        }
+
+        for (let i = Math.max(2, left); i <= Math.min(totalDataHistoryPages - 1, right); i++) {
+            pages.push(i);
+        }
+
+        if (right < totalDataHistoryPages - 1) {
+            pages.push('ellipsis-right');
+        }
+
+        if (totalDataHistoryPages > 1) {
+            pages.push(totalDataHistoryPages);
+        }
+
+        return pages;
     };
 
     return (
@@ -90,16 +119,26 @@ function DataHistory({deviceId}: DataHistoryProps) {
                                 />
                                 </PaginationItem>
                                 
-                                {Array.from({ length: totalDataHistoryPages }, (_, i) => i + 1).map((page) => (
-                                    <PaginationItem key={page}>
-                                        <PaginationLink
-                                        onClick={() => handleDataHistoryPageChange(page)}
-                                        isActive={page === currentDataHistoryPage}
-                                        >
-                                        {page}
-                                        </PaginationLink>
-                                    </PaginationItem>
-                                ))}
+                                {generatePaginationPages().map((page, index) => {
+                                        if (typeof page === 'string') {
+                                            return (
+                                                <PaginationItem key={`${page}-${index}`}>
+                                                    <PaginationEllipsis />
+                                                </PaginationItem>
+                                            );
+                                        }
+                                        
+                                        return (
+                                            <PaginationItem key={page}>
+                                                <PaginationLink
+                                                    onClick={() => handleDataHistoryPageChange(page)}
+                                                    isActive={page === currentDataHistoryPage}
+                                                >
+                                                    {page}
+                                                </PaginationLink>
+                                            </PaginationItem>
+                                        );
+                                    })}
 
                                 <PaginationItem>
                                     <PaginationNext 
