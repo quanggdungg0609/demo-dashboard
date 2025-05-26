@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 interface LatestDataProps {
   deviceId: string;
@@ -8,33 +8,56 @@ function LastestData({ deviceId }: LatestDataProps) {
   const [latestDeviceData, setLatestDeviceData] = useState<LatestCorrosionData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [worker, setWorker] = useState<Worker|null>(null);
 
   useEffect(()=>{
     if (deviceId) {
-        const fetchLatestData = async () => {
-            setLoading(true);
-            setError(null);
-            setLatestDeviceData(null);
-            try {
-                const response = await fetch(`/api/latest_data/${deviceId}`);
-                if (!response.ok) {
-                const errorData = await response.json().catch(() => ({ message: `HTTP error! status: ${response.status}` }));
-                throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-                }
-                const data: LatestCorrosionData = await response.json();
-                setLatestDeviceData(data);
-            } catch (e: any) {
-                setError(e.message);
+      const fetchLatestData = async () => {
+        setLoading(true);
+        setError(null);
+        setLatestDeviceData(null);
+        try {
+            const response = await fetch(`/api/latest_data/${deviceId}`);
+            if (!response.ok) {
+              const errorData = await response.json().catch(() => ({ message: `HTTP error! status: ${response.status}` }));
+              throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
             }
-            setLoading(false);
+            const data: LatestCorrosionData = await response.json();
+            setLatestDeviceData(data);
+        } catch (e: any) {
+            setError(e.message);
+        }
+        setLoading(false);
+    };
+      fetchLatestData();
+
+      if (typeof window !== 'undefined') {
+        const newWorker =  new Worker(/* turbopackIgnore: true */"/workers/autoUpdateWorker.js")
+        newWorker.onmessage= (e)=>{
+          if(e.data.type==="UPDATE"){
+            const data: LatestCorrosionData = e.data.payload;
+            setLatestDeviceData(data);
+          }
         };
-  
-        fetchLatestData();
+        newWorker.onerror = (error) => {
+          console.error('Worker error:', error);
+        };
+        setWorker(newWorker);
+        newWorker.postMessage({ deviceId: deviceId });
+        return () => {
+          newWorker.terminate();
+        };
+      }  
     } else {
             setLatestDeviceData(null);
             setError(null);
             setLoading(false);
-        }
+    }
+    return ()=>{
+      if (worker){
+        worker.terminate()
+      }
+    }
   },[deviceId])
 
   return (

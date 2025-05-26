@@ -30,7 +30,6 @@ export default function Home() {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log(data.devices);
         setDevicesList(data.devices);
         setSelectedDevice(data.devices[0]);
       }catch(error){

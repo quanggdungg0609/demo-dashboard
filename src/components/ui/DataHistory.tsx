@@ -63,7 +63,7 @@ function DataHistory({deviceId}: DataHistoryProps) {
 
     const generatePaginationPages = () => {
         const pages = [];
-        const delta = 2;
+        const delta = 1;
         const left = currentDataHistoryPage - delta;
         const right = currentDataHistoryPage + delta;
         
@@ -123,7 +123,7 @@ function DataHistory({deviceId}: DataHistoryProps) {
                             ))}
                         </tbody>
                     </table>
-                    <div className="mt-4">
+                    <div className="w-full mt-4">
 
                         <Pagination>
                             <PaginationContent>

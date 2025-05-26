@@ -23,7 +23,8 @@
     "recharts": "^2.15.3",
     "reflect-metadata": "^0.2.2",
     "tailwind-merge": "^3.3.0",
-    "typeorm": "^0.3.24"
+    "typeorm": "^0.3.24",
+    "worker-loader": "^3.0.8"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
