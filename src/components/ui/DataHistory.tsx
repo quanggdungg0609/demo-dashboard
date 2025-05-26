@@ -20,6 +20,8 @@ function DataHistory({deviceId}: DataHistoryProps) {
     const [currentDataHistoryPage, setCurrentDataHistoryPage] = useState<number>(1);
     const [totalDataHistoryPages, setTotalDataHistoryPages] = useState<number>(0);
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isError, setIsError] = useState<boolean>(false);
     
     useEffect(() => {
         fetchDataHistory(1);
@@ -31,7 +33,8 @@ function DataHistory({deviceId}: DataHistoryProps) {
 
     const fetchDataHistory = async (page: number) => {
         try {
-            
+            setIsLoading(true);
+            setIsError(false);
             const response = await fetch(`/api/data_history/${deviceId}?page=${page}&limit=5`);
             if (!response.ok) {
             const errorData = await response.json().catch(() => ({ message: `HTTP error! status: ${response.status}` }));
@@ -45,6 +48,9 @@ function DataHistory({deviceId}: DataHistoryProps) {
             setCurrentDataHistoryPage(data.currentPage);
         } catch (e: any) {
             console.error(e.message);
+            setIsError(true);
+        }finally {
+            setIsLoading(false);
         }
     };
 
@@ -84,7 +90,16 @@ function DataHistory({deviceId}: DataHistoryProps) {
 
     return (
         <div className="h-full bg-gray-50 rounded border border-gray-200 p-4 overflow-auto">
-            {dataHistoryRecords.length > 0 ? (
+            {isLoading ? 
+                (<div className="flex justify-center items-center h-32">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                    <span className="ml-2">Loading data...</span>
+                </div> ) :
+                isError ? (
+                    <div className="text-red-500 p-4 text-center">
+                        Failed to load data. Please try again later.
+                    </div>
+                ): dataHistoryRecords.length > 0 ? (
                 <>
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-100">
