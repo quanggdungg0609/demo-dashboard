@@ -1,26 +1,14 @@
 "use client"
 import { useState, useEffect } from "react"; 
-import { Loader2, AlertTriangle, LineChart as LineChartIcon } from 'lucide-react'; // Thêm các icon cần thiết
-
-
 import LastestData from "@/components/ui/LastestData";
 import Graph from "@/components/ui/Graph";
 import DataHistory from "@/components/ui/DataHistory";
-
-
-
-
 
 
 export default function Home() {
   const [devicesList, setDevicesList] = useState<string[]>([]);
   const [selectedDevice, setSelectedDevice] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<number>(0);
-
-
-
-
-  
 
   useEffect(()=>{
     const fetchData = async () =>{
@@ -47,7 +35,7 @@ export default function Home() {
     >
       <section
         id="select-device-section"
-        className="p-4 bg-white shadow-md" 
+        className="p-4 bg-white shadow-md sticky top-0 z-10"
       >
         <h2 className="text-lg font-semibold mb-2">Select device:</h2>
         <select className="w-full p-2 border rounded"

@@ -1,6 +1,6 @@
 
 let intervalId;
-
+let deviceId;
 const fetchData = async (deviceId)=>{
     try{
         const response = await fetch(`/api/latest_data/${deviceId}`);
@@ -17,11 +17,11 @@ const fetchData = async (deviceId)=>{
 }
 
 self.onmessage=(event)=>{
-    const deviceId = event.data.deviceId    
+    deviceId = event.data.deviceId    
     if (intervalId) clearInterval(intervalId);
     intervalId = setInterval(() => {
         fetchData(deviceId);
-    }, 10 * 1000);
+    }, 60 * 1000);
 }
 
 self.onclose = () => {

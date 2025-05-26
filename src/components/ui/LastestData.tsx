@@ -56,6 +56,7 @@ function LastestData({ deviceId }: LatestDataProps) {
     return ()=>{
       if (worker){
         worker.terminate()
+        console.log("Worker terminate")
       }
     }
   },[deviceId])
@@ -69,17 +70,17 @@ function LastestData({ deviceId }: LatestDataProps) {
               </p>
         )}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 bg-white rounded shadow">
-            <h3 className="font-semibold">Temperature</h3>
-            <p className="text-2xl">{latestDeviceData ? `${latestDeviceData.TEMPERATURE}°C` : 'N/A'}</p>
+          <div className="flex flex-row justify-between items-center px-4 py-8 md:justify-start md:items-start md:p-4 md:flex-col  bg-red-300 rounded shadow">
+            <h3 className="text-gray-500 text-shadow-2xs text-2xl md:text-xl font-bold">Temperature</h3>
+            <p className="text-red-600 text-2xl text-shadow-2xs">{latestDeviceData ? `${latestDeviceData.TEMPERATURE}°C` : 'N/A'}</p>
           </div>
-          <div className="p-4 bg-white rounded shadow">
-            <h3 className="font-semibold">Humidity</h3>
-            <p className="text-2xl">{latestDeviceData ? `${latestDeviceData.HUMIDITY}%` : 'N/A'}</p>
+          <div className="flex flex-row justify-between items-center px-4 py-8 md:justify-start md:items-start md:p-4 md:flex-col bg-cyan-300 rounded shadow">
+            <h3 className="text-gray-500 text-shadow-2xs text-2xl md:text-xl font-bold">Humidity</h3>
+            <p className="text-cyan-600 text-shadow-2xs  text-2xl">{latestDeviceData ? `${latestDeviceData.HUMIDITY}%` : 'N/A'}</p>
           </div>
-          <div className="p-4 bg-white rounded shadow">
-              <h3 className="font-semibold">Resistor</h3>
-              <p className="text-2xl">{latestDeviceData ? `${latestDeviceData.RESISTOR.toFixed(5)} Ω` : 'N/A'}</p>
+          <div className="flex flex-row justify-between items-center px-4 py-8 md:justify-start md:items-start md:p-4 md:flex-col bg-green-300 rounded shadow">
+              <h3 className="text-gray-500 text-shadow-2xs text-2xl md:text-xl font-bold">Resistor</h3>
+              <p className=" text-green-600 text-shadow-2xs text-2xl">{latestDeviceData ? `${latestDeviceData.RESISTOR.toFixed(5)} Ω` : 'N/A'}</p>
           </div>
         </div>
     </div>

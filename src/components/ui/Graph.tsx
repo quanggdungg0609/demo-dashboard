@@ -12,6 +12,7 @@ import {
   } from 'recharts';
 
 
+
 interface GraphProps {
     deviceId: string|null;
 }
@@ -20,6 +21,12 @@ const dataKeyToLabel: Record<PlottableDataKey, string> = {
     TEMPERATURE: 'Temperature (°C)',
     HUMIDITY: 'Humidity (%)',
     RESISTOR: 'Resistor (Ω)',
+};
+
+const graphColors: Record<PlottableDataKey, string> = {
+  TEMPERATURE: '#ff7300',
+  HUMIDITY: '#00bcd4',
+  RESISTOR: '#4caf50'
 };
 
 const graphKeyToApiSegment: Record<PlottableDataKey, string> = {
@@ -139,7 +146,16 @@ function Graph({ deviceId }: GraphProps) {
                           textAlign: 'center' 
                         }}
                       />
-                      <Line type="monotone" dataKey="VALUE" stroke="#8884d8" activeDot={{ r: 8 }} name={dataKeyToLabel[selectedGraphKey]} />
+                      <Line 
+                        type="monotone" 
+                        dataKey="VALUE" 
+                        stroke={graphColors[selectedGraphKey]} 
+                        strokeWidth={3}
+                        activeDot={{
+                          r: 8,
+                          fill: graphColors[selectedGraphKey],
+                          stroke: graphColors[selectedGraphKey]
+                        }} name={dataKeyToLabel[selectedGraphKey]} />
                     </LineChart>
                   </ResponsiveContainer>
                 )}

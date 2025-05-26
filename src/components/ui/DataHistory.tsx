@@ -35,13 +35,12 @@ function DataHistory({deviceId}: DataHistoryProps) {
         try {
             setIsLoading(true);
             setIsError(false);
-            const response = await fetch(`/api/data_history/${deviceId}?page=${page}&limit=5`);
+            const response = await fetch(`/api/data_history/${deviceId}?page=${page}&limit=10`);
             if (!response.ok) {
             const errorData = await response.json().catch(() => ({ message: `HTTP error! status: ${response.status}` }));
                 throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            console.log(data);
             const dataRecords : DataHistoryRecord[] = data.data;
             setDataHistoryRecords(dataRecords);
             setTotalDataHistoryPages(data.totalPages);
@@ -56,7 +55,6 @@ function DataHistory({deviceId}: DataHistoryProps) {
 
     const handleDataHistoryPageChange = (newPage: number) => {
         if (newPage >= 1 && newPage <= totalDataHistoryPages) {
-          console.log(newPage);
           setCurrentDataHistoryPage(newPage);
         }
     };
