@@ -44,6 +44,7 @@ function Graph({ deviceId }: GraphProps) {
     useEffect(() => {
         fetchGraphData();
     },[deviceId]);
+    
     useEffect(() => {
         if(deviceId){
             fetchGraphData();

@@ -10,6 +10,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
+import { AlertTriangle, Loader2 } from 'lucide-react';
 
 interface DataHistoryProps {
     deviceId: string | null;
@@ -89,13 +90,14 @@ function DataHistory({deviceId}: DataHistoryProps) {
     return (
         <div className="h-full bg-gray-50 rounded border border-gray-200 p-4 overflow-auto">
             {isLoading ? 
-                (<div className="flex justify-center items-center h-32">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-                    <span className="ml-2">Loading data...</span>
-                </div> ) :
+                (<div className="flex flex-col items-center">
+                    <Loader2 className="h-12 w-12 animate-spin text-blue-500" />
+                    <p className="mt-2 text-gray-500">Loading data...</p>
+                  </div> ) :
                 isError ? (
-                    <div className="text-red-500 p-4 text-center">
-                        Failed to load data. Please try again later.
+                    <div className="flex flex-col items-center text-red-500">
+                        <AlertTriangle className="h-12 w-12" />
+                        <p className="text-sm text-gray-500">Please try again or select a different device/data type.</p>
                     </div>
                 ): dataHistoryRecords.length > 0 ? (
                 <>
