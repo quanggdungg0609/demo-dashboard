@@ -132,7 +132,7 @@ function Graph({ deviceId }: GraphProps) {
                       margin={{
                         top: 5,
                         right: 30,
-                        left: 20, 
+                        left: -20, 
                         bottom: 5,
                       }}
                     >
@@ -158,7 +158,10 @@ function Graph({ deviceId }: GraphProps) {
                             return value.toFixed(1);
                           }
                         }}
-                        width={80}
+                        width={60}
+                        tick={{ fontSize: 12 }}
+                        axisLine={false}
+                        tickLine={false}
                       />
                       <Tooltip 
                         formatter={(value, name) => {
