@@ -131,8 +131,8 @@ function Graph({ deviceId }: GraphProps) {
                       data={graphDataRecords}
                       margin={{
                         top: 5,
-                        right: 10,
-                        left: -30, 
+                        right: 30,
+                        left: 20, 
                         bottom: 5,
                       }}
                     >
@@ -144,8 +144,30 @@ function Graph({ deviceId }: GraphProps) {
                           angle: -90, 
                           position: 'insideLeft'
                         }}
+                        tickFormatter={(value) => {
+                          if (selectedGraphKey === 'RESISTOR') {
+                            // Format large resistor values with scientific notation or abbreviated form
+                            if (value >= 1000000) {
+                              return (value / 1000000).toFixed(1) + 'M';
+                            } else if (value >= 1000) {
+                              return (value / 1000).toFixed(1) + 'K';
+                            } else {
+                              return value.toFixed(2);
+                            }
+                          } else {
+                            return value.toFixed(1);
+                          }
+                        }}
+                        width={80}
                       />
-                      <Tooltip />
+                      <Tooltip 
+                        formatter={(value, name) => {
+                          if (selectedGraphKey === 'RESISTOR') {
+                            return [typeof value === 'number' ? value.toFixed(5) : value, name];
+                          }
+                          return [value, name];
+                        }}
+                      />
                       <Legend
                         wrapperStyle={{
                           paddingTop: '10px',
