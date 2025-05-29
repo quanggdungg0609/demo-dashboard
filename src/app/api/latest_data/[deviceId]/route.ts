@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDataSource } from '../../../../../ormconfig';
 import { Corrosion } from '@/entity/Corrosion';
+import { formatDateTime } from '@/utils/utils';
 
 
 interface Params {
@@ -39,7 +40,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ devi
         HUMIDITY: latestRecord.HUMIDITY,
         TEMPERATURE: latestRecord.TEMPERATURE,
         RESISTOR: latestRecord.RESISTOR,
-        CALENDAR: latestRecord.CALENDAR,
+        CALENDAR: formatDateTime(latestRecord.CALENDAR.toLocaleString()),
       };
   
       return NextResponse.json(result);
