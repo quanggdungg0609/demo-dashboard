@@ -60,13 +60,13 @@ function LastestData({ deviceId }: LatestDataProps) {
       }
     }
   },[deviceId])
-
+  console.log(latestDeviceData?.CALENDAR)
   return (
     <div>
          <h2 className="text-lg font-semibold mb-2 text-blue-900">Latest Data for Device {deviceId || 'N/A'}</h2>
         {latestDeviceData && !loading && !error && (
               <p className="text-xs text-gray-500 mb-3">
-                Data captured on: {new Date(latestDeviceData.CALENDAR).toLocaleString()}
+                Data captured on: {latestDeviceData.CALENDAR}
               </p>
         )}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
