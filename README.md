@@ -65,3 +65,25 @@ yarn dev
 pnpm dev
 # or
 bun dev
+```
+To build the project for production:
+```bash
+npm run build
+# or
+yarn build
+# or
+pnpm build
+# or
+bun build
+```
+
+## Environment Variables
+To run this application, you need to set up the following environment variables in a .env file at the root of your project:
+
+```plaintext
+DB_HOST=your_database_host
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+DB_NAME=your_database_name
+```
+These variables are crucial for the application to connect to the database and function correctly.
