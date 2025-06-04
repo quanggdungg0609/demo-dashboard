@@ -4,7 +4,73 @@ import { Corrosion } from '@/entity/Corrosion';
 import { formatDateTime } from '@/utils/utils';
 
 
-
+/**
+ * @swagger
+ * /api/temperature/{deviceId}/latest:
+ *   get:
+ *     summary: Retrieve the latest temperature data for a specific device.
+ *     tags:
+ *       - Temperature
+ *     parameters:
+ *       - in: path
+ *         name: deviceId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the device to fetch temperature data for.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved the latest temperature data.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   VALUE:
+ *                     type: number
+ *                     description: The temperature value.
+ *                   CALENDAR:
+ *                     type: string
+ *                     format: date-time
+ *                     description: The timestamp of the data recording.
+ *               example:
+ *                 - VALUE: 25.5
+ *                   CALENDAR: "2023-10-27 10:30:00"
+ *                 - VALUE: 25.0
+ *                   CALENDAR: "2023-10-27 10:25:00"
+ *       400:
+ *         description: Invalid request. Device ID is required.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Device ID is required"
+ *       404:
+ *         description: No temperature data found for the specified device.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "No temperature data found for device 123"
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Internal server error"
+ */
 export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ deviceId: string }> }

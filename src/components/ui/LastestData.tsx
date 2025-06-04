@@ -4,12 +4,39 @@ import React, { useEffect, useRef, useState } from 'react'
 interface LatestDataProps {
   deviceId: string;
 }
+
+/**
+ * @component LastestData
+ * @description Displays the latest sensor data (temperature, humidity, resistor) for a given device.
+ * It fetches the data initially and then uses a Web Worker to receive real-time updates.
+ * @param {LatestDataProps} props - The props for the component.
+ * @param {string} props.deviceId - The ID of the device to display data for.
+ * @returns {JSX.Element} The JSX element displaying the latest data.
+ */
 function LastestData({ deviceId }: LatestDataProps) {
+  /**
+   * @state {LatestCorrosionData | null} latestDeviceData - Stores the latest corrosion data fetched from the API or worker.
+   */
   const [latestDeviceData, setLatestDeviceData] = useState<LatestCorrosionData | null>(null);
+  /**
+   * @state {boolean} loading - Indicates if the initial data fetch is in progress.
+   */
   const [loading, setLoading] = useState<boolean>(false);
+  /**
+   * @state {string | null} error - Stores any error message that occurred during data fetching.
+   */
   const [error, setError] = useState<string | null>(null);
+  /**
+   * @state {Worker | null} worker - Holds the reference to the Web Worker instance for real-time updates.
+   */
   const [worker, setWorker] = useState<Worker|null>(null);
 
+  /**
+   * @effect Fetches the latest data when the `deviceId` changes and sets up a Web Worker for real-time updates.
+   * @description This effect performs an initial fetch for the latest data. It then initializes a Web Worker
+   * to listen for subsequent data updates for the specified `deviceId`. It also handles cleanup by terminating
+   * the worker when the component unmounts or the `deviceId` changes.
+   */
   useEffect(()=>{
     if (deviceId) {
       const fetchLatestData = async () => {
