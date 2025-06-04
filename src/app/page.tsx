@@ -4,12 +4,30 @@ import LastestData from "@/components/ui/LastestData";
 import Graph from "@/components/ui/Graph";
 import DataHistory from "@/components/ui/DataHistory";
 
-
+/**
+ * @file Home page component for the dashboard.
+ * @description This component serves as the main page of the application.
+ * It allows users to select a device and view its latest data, historical data in a graph, and a data table.
+ */
 export default function Home() {
+  /**
+   * @state {string[]} devicesList - List of available device IDs.
+   */
   const [devicesList, setDevicesList] = useState<string[]>([]);
+  /**
+   * @state {string | null} selectedDevice - The currently selected device ID.
+   */
   const [selectedDevice, setSelectedDevice] = useState<string | null>(null);
+  /**
+   * @state {number} activeTab - Index of the active tab (0 for Graph, 1 for Data History).
+   */
   const [activeTab, setActiveTab] = useState<number>(0);
 
+  /**
+   * @effect Fetches the list of available devices when the component mounts.
+   * @description This effect runs once after the initial render to populate the device list.
+   * It makes an API call to `/api/devices` and updates the `devicesList` and `selectedDevice` states.
+   */
   useEffect(()=>{
     const fetchData = async () =>{
       try{
@@ -29,6 +47,10 @@ export default function Home() {
 
   
 
+  /**
+   * Renders the main page layout.
+   * @returns {JSX.Element} The main page JSX structure.
+   */
   return (
     <div
       className="flex flex-col min-h-screen bg-gray-100" 

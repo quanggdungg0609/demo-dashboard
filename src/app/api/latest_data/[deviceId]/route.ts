@@ -4,10 +4,90 @@ import { Corrosion } from '@/entity/Corrosion';
 import { formatDateTime } from '@/utils/utils';
 
 
+
+
 interface Params {
     deviceId: string;
 }
 
+/**
+ * @swagger
+ * /api/latest_data/{deviceId}:
+ *   get:
+ *     summary: Retrieve the latest corrosion data for a specific device.
+ *     tags:
+ *       - Latest Data
+ *     parameters:
+ *       - in: path
+ *         name: deviceId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the device to fetch the latest data for.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved the latest device data.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 DEVICE:
+ *                   type: number
+ *                   description: The device ID.
+ *                 HUMIDITY:
+ *                   type: number
+ *                   description: The latest humidity reading.
+ *                 TEMPERATURE:
+ *                   type: number
+ *                   description: The latest temperature reading.
+ *                 RESISTOR:
+ *                   type: number
+ *                   description: The latest resistor reading.
+ *                 CALENDAR:
+ *                   type: string
+ *                   format: date-time
+ *                   description: The timestamp of the latest data recording.
+ *               example:
+ *                 DEVICE: 123
+ *                 HUMIDITY: 75.2
+ *                 TEMPERATURE: 25.5
+ *                 RESISTOR: 1000
+ *                 CALENDAR: "2023-10-27 10:30:00"
+ *       400:
+ *         description: Invalid request. Device ID is required or invalid format.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Device ID is required" or "Invalid Device ID format"
+ *       404:
+ *         description: No data found for the specified device.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "No data found for this device"
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Failed to fetch data"
+ *                 error:
+ *                   type: string
+ *                   example: "An unknown error occurred"
+ */
 export async function GET(request: Request, { params }: { params: Promise<{ deviceId: string }> }) {
     const { deviceId } = await params;
     if (!deviceId) {

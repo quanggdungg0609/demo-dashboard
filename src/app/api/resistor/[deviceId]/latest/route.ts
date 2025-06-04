@@ -4,6 +4,74 @@ import { getDataSource } from '../../../../../../ormconfig';
 import { Corrosion } from '@/entity/Corrosion';
 import { formatDateTime } from '@/utils/utils';
 
+
+/**
+ * @swagger
+ * /api/resistor/{deviceId}/latest:
+ *   get:
+ *     summary: Retrieve the latest resistor data for a specific device.
+ *     tags:
+ *       - Resistor
+ *     parameters:
+ *       - in: path
+ *         name: deviceId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the device to fetch resistor data for.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved the latest resistor data.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   VALUE:
+ *                     type: number
+ *                     description: The resistor value.
+ *                   CALENDAR:
+ *                     type: string
+ *                     format: date-time
+ *                     description: The timestamp of the data recording.
+ *               example:
+ *                 - VALUE: 1024
+ *                   CALENDAR: "2023-10-27 10:30:00"
+ *                 - VALUE: 1020
+ *                   CALENDAR: "2023-10-27 10:25:00"
+ *       400:
+ *         description: Invalid request. Device ID is required or invalid format.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Device ID is required" or "Invalid Device ID format"
+ *       404:
+ *         description: No resistor data found for the specified device.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "No resistor data found for device 123"
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Internal server error"
+ */
 export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ deviceId: string }> } 
