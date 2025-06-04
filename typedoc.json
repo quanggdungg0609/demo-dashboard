@@ -1,0 +1,10 @@
+{
+    "entryPoints": ["./src"],
+    "entryPointStrategy": "expand",
+    "out": "docs",
+    "exclude": [" /node_modules/ "],
+    "name": "Demo Dashboard Documentation",
+    "includeVersion": true,
+    "theme": "default",
+    "plugin": ["typedoc-plugin-markdown"]
+    }
